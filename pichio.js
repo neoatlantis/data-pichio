@@ -71,9 +71,11 @@ function save(srcName, metaJSON, dataBuffer, CB){
     // encrypt and save
     var workflow = [];
     workflow.push(function(RR){
+        console.log(process.hrtime());
         encryptor.encrypt(dataBuffer, RR);
     });
     workflow.push(function(ciphertextBuf, RR){
+        console.log(process.hrtime());
         var lenBuf = new $.node.buffer.Buffer(4);
         lenBuf.writeUInt32BE(metaBuf.length, 0);
 
@@ -91,6 +93,6 @@ function save(srcName, metaJSON, dataBuffer, CB){
 save(
     'default',
     {'a':'a'},
-    $.node.fs.readFileSync('README.md'),
+    $.node.fs.readFileSync('sample'),
     console.log
 );
