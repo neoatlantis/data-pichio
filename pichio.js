@@ -93,14 +93,6 @@ function save(srcName, metaJSON, dataBuffer, CB){
     $.node.async.waterfall(workflow, CB);
 };
 
-/*
-save(
-    'default',
-    {'a':'a'},
-    $.node.fs.readFileSync('sample'),
-    console.log
-);*/
-
 /////////////////////////////// HTTP SERVER //////////////////////////////////
 if($.config.server){
     $.server(storagePath, $.config.server);
