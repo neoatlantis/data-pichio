@@ -11,7 +11,8 @@ var privateKeyHex = process.argv[2].replace(/[^0-9a-f]/gi, ''),
     privateKey = new $.node.buffer.Buffer(privateKeyHex, 'hex');
 
 var command = process.argv[3].toLowerCase(),
-    filename = process.argv[4];
+    filename = process.argv[4],
+    algorithm = $.config["encryption"]["algorithm"];
 
 if(command != 'meta' && command != 'decrypt'){
     console.log('Bad command.');
@@ -32,4 +33,27 @@ if(splitLen > fileContent.length)
 var metaBuf = fileContent.slice(0, splitLen),
     ciphertextBuf = fileContent.slice(splitLen);
 
+var decryptor = $.crypto.acrypt(algorithm);
+decryptor.setPrivateKey(privateKey);
 
+if('meta' == command){
+    decryptor.decrypt(metaBuf, function(err, res){
+        if(err){
+            console.error(err);
+            process.exit(255);
+        };
+        console.log(res.toString());
+        process.exit(0);
+    });
+};
+
+if('decrypt' == command){
+    decryptor.decrypt(ciphertextBuf, function(err, res){
+        if(err){
+            console.error(err);
+            process.exit(255);
+        };
+        console.log(res.toString());
+        process.exit(0);
+    });
+};
