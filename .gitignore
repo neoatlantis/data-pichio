@@ -1,0 +1,4 @@
+*.swp
+*.swo
+.pichio
+node_modules

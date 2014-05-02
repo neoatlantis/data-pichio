@@ -1,0 +1,29 @@
+{
+    "author": "NeoAtlantis",
+    "name": "data-pichio",
+    "description": "data encryptive agressive collector",
+    "version": "0.0.1",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/neoatlantis/data-pichio.git"
+    },
+    "dependencies": {
+        "async": "0.7.x"
+    },
+    "homepage": "https://github.com/neoatlantis/data-pichio",
+    "engines": {
+        "node": ">=0.10"
+    },
+    "keywords": [
+        "cryptography",
+        "encryption",
+        "encrypt",
+        "collect",
+        "privacy",
+    ],
+    "bin": {
+        "pichio": "./pichio.js"
+    },
+    "license": "GPL"
+}
+
