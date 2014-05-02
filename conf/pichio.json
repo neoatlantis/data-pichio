@@ -5,5 +5,22 @@
     },
     "server": {
         "port": 10000
-    }
+    },
+    
+    "connections": [
+        {
+            "type": "file-system",
+            "interval": 5,
+            "parameter": {
+                "path": ""
+            }
+        },
+        {
+            "type": "wifi-sdcard",
+            "interval": 5,
+            "parameter": {
+                "url": ""
+            }
+        }
+    ]
 }
