@@ -53,3 +53,44 @@ publicKey = new $.node.buffer.Buffer(publicKey, 'base64');
 var encryptor = $.crypto.acrypt(algorithm);
 encryptor.setPublicKey(publicKey);
 
+var storagePath = $.config["storage-path"];
+
+function save(srcName, metaJSON, dataBuffer, CB){
+    var metaBuf = new $.node.buffer.Buffer(JSON.stringify(metaJSON), 'ascii');
+
+    var digest = $.crypto.hash.digest('sha1', $.node.buffer.Buffer.concat([
+        $.crypto.hash.objectID('sha512', metaJSON),
+        $.crypto.hash.digest('sha512', dataBuffer),
+    ]));
+
+    var filename = srcName + '-' + digest.toString('hex'),
+        savename = $.tools.resolve(storagePath, filename);
+
+    if($.node.fs.existsSync(savename)) return CB(null);
+
+    // encrypt and save
+    var workflow = [];
+    workflow.push(function(RR){
+        encryptor.encrypt(dataBuffer, RR);
+    });
+    workflow.push(function(ciphertextBuf, RR){
+        var lenBuf = new $.node.buffer.Buffer(4);
+        lenBuf.writeUInt32BE(metaBuf.length, 0);
+
+        var storageData = $.node.buffer.Buffer.concat([
+            lenBuf,
+            metaBuf,
+            ciphertextBuf,
+        ]);
+        $.node.fs.writeFile(savename, storageData, RR);
+    });
+
+    $.node.async.waterfall(workflow, CB);
+};
+
+save(
+    'default',
+    {'a':'a'},
+    $.node.fs.readFileSync('README.md'),
+    console.log
+);
