@@ -25,7 +25,7 @@ The sample key sent to this repository have a corresponding private key of
 following. **DO NOT make your own private key public, and DO NOT use this
 out-of-box private key!! You have been warned!**
 
-  9d3c66ab edb914e7 4e453c12 7b7320d7 5cd78d63 69e26b36 0f824605 8e3ef52c 
+    9d3c66ab edb914e7 4e453c12 7b7320d7 5cd78d63 69e26b36 0f824605 8e3ef52c 
 
 ------------------------------------------------------------------------------
 
@@ -49,4 +49,4 @@ Wifi-SD卡是启动后能产生一个Wifi热点，然后允许通过无线LAN访
 公布在本库配置文件中的公钥对应的私钥如下。**您不能公开自己的私钥！也不要使用这
 个自带的私钥！勿谓吾言之不预！**
 
-  9d3c66ab edb914e7 4e453c12 7b7320d7 5cd78d63 69e26b36 0f824605 8e3ef52c 
+    9d3c66ab edb914e7 4e453c12 7b7320d7 5cd78d63 69e26b36 0f824605 8e3ef52c 
