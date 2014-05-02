@@ -1,3 +1,6 @@
 {
-    "storage-path": ".pichio"
+    "storage-path": ".pichio",
+    "encryption": {
+        "algorithm": "NECRAC256"
+    }
 }
