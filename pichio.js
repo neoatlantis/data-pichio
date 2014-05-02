@@ -71,17 +71,20 @@ function save(srcName, metaJSON, dataBuffer, CB){
     // encrypt and save
     var workflow = [];
     workflow.push(function(RR){
-        console.log(process.hrtime());
         encryptor.encrypt(dataBuffer, RR);
     });
     workflow.push(function(ciphertextBuf, RR){
-        console.log(process.hrtime());
+        encryptor.encrypt(metaBuf, function(err, res){
+            RR(err, res, ciphertextBuf);
+        });
+    });
+    workflow.push(function(encryptedMetaBuf, ciphertextBuf, RR){
         var lenBuf = new $.node.buffer.Buffer(4);
-        lenBuf.writeUInt32BE(metaBuf.length, 0);
+        lenBuf.writeUInt32BE(encryptedMetaBuf.length, 0);
 
         var storageData = $.node.buffer.Buffer.concat([
             lenBuf,
-            metaBuf,
+            encryptedMetaBuf,
             ciphertextBuf,
         ]);
         $.node.fs.writeFile(savename, storageData, RR);
