@@ -16,10 +16,10 @@
             }
         },
         {
-            "type": "wifi-sdcard",
+            "type": "toshiba-flashair",
             "interval": 5,
             "parameter": {
-                "url": ""
+                "ip": "192.168.0.1"
             }
         }
     ]
