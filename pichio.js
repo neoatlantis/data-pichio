@@ -97,3 +97,19 @@ function save(srcName, metaJSON, dataBuffer, CB){
 if($.config.server){
     $.server(storagePath, $.config.server);
 };
+
+///////////////////////// COLLECTOR INITIALIZATION ///////////////////////////
+workers = [];
+var workerGetter = require('./worker');
+
+for(var i in $.config.connections){
+    var connConfig = $.config.connections[i];
+    
+    var worker = workerGetter[connConfig["type"]](connConfig["parameter"]);
+    var controller = $.controller(save, connConfig["name"]);
+
+    worker.obey(controller);
+    controller.start();
+
+    workers.push(worker);
+};

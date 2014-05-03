@@ -13,6 +13,8 @@ module.exports = function(p){
 function _WORKER(p){
     var self = this;
 
+    var controller;
+
     var ip = p.ip || '192.168.0.1';
     if(!/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/.test(ip))
         throw $.error('invalid-parameter', 'ip');
@@ -68,9 +70,11 @@ function _WORKER(p){
     function _download(path){
     };
 
-    this.obey = function(controller){
+    this.obey = function(c){
+        controller = c;
         controller.on('download', _download);
         controller.on('refresh', _refresh);
+        delete self.obey;
     };
 
     return this;

@@ -9,14 +9,8 @@
     
     "connections": [
         {
-            "type": "file-system",
-            "interval": 5,
-            "parameter": {
-                "path": ""
-            }
-        },
-        {
             "type": "toshiba-flashair",
+            "name": "wifisdc1",
             "interval": 5,
             "parameter": {
                 "ip": "192.168.0.1"
