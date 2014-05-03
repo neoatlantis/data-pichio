@@ -25,9 +25,11 @@ function _WORKER(p){
         var workflow = [];
 
         workflow.push(function(RR){
+            var url = 'http://' + ip + '/command.cgi?op=100&DIR=' 
+                    + path + '&TIME=' + (new Date().getTime());
+            console.log(url);
             var req = $.node.http.get(
-                'http://' + ip + '/command.cgi?op=100&DIR=' 
-                + path + '&TIME=' + (new Date().getTime()),
+                url,
                 function(res){
                     var data = '';
                     res.on('data', function(chunk){
@@ -48,6 +50,7 @@ function _WORKER(p){
         });
 
         workflow.push(function(data, RR){
+            console.log(data);
             var list = data.split('\r\n'),
                 ret = [];
             for(var i=1; i<list.length; i++){
@@ -65,6 +68,11 @@ function _WORKER(p){
             RR(null, ret);
         });
 
+        // inform the controller with new directory list.
+        $.node.async.waterfall(workflow, function(err, res){
+            if(err) return;
+            controller.register(res);
+        });
     };
 
     function _download(path){
