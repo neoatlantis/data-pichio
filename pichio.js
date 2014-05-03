@@ -58,18 +58,25 @@ var storagePath = $.config["storage-path"];
 function save(srcName, metaJSON, dataBuffer, CB){
     var metaBuf = new $.node.buffer.Buffer(JSON.stringify(metaJSON), 'ascii');
 
-    var digest = $.crypto.hash.digest('sha1', $.node.buffer.Buffer.concat([
-        $.crypto.hash.objectID('sha512', metaJSON),
-        $.crypto.hash.digest('sha512', dataBuffer),
-    ]));
+    // digest of this file. we do not want to consume a lot of time hashing
+    // the real file and therefore would use only the meta data. The meta data
+    // includes filename, date, size, path, and should represent a file.
+    var digest = $.crypto.hash.objectID('sha1', metaJSON);
 
     var filename = srcName + '-' + digest.toString('hex'),
         savename = $.tools.resolve(storagePath, filename);
 
-    if($.node.fs.existsSync(savename)) return CB(null);
+    var workflow = [];
+
+    // async check existence
+    workflow.push(function(RR){
+        $.node.fs.exists(savename, function(exists){
+            if(exists) return RR(true);
+            RR(null);
+        });
+    });
 
     // encrypt and save
-    var workflow = [];
     workflow.push(function(RR){
         encryptor.encrypt(dataBuffer, RR);
     });

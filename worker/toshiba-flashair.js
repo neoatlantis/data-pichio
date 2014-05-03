@@ -27,7 +27,6 @@ function _WORKER(p){
         workflow.push(function(RR){
             var url = 'http://' + ip + '/command.cgi?op=100&DIR=' 
                     + path + '&TIME=' + (new Date().getTime());
-            console.log(url);
             var req = $.node.http.get(
                 url,
                 function(res){
@@ -57,9 +56,10 @@ function _WORKER(p){
                 var dataline = list[i].split(',');
                 if(dataline.length != 6) continue;
                 ret.push({
-                    path: dataline[0],
+                    path: $.node.path.resolve(path, dataline[0]),
+                    isFolder: Boolean(dataline[3] & 0x10),
                     name: dataline[1],
-                    size: dataline[2],
+                    size: parseInt(dataline[2], 10),
                     attr: dataline[3],
                     date: dataline[4],
                     time: dataline[5],
