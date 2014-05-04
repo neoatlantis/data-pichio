@@ -49,7 +49,6 @@ function _WORKER(p){
         });
 
         workflow.push(function(data, RR){
-            console.log(data);
             var list = data.split('\r\n'),
                 ret = [];
             for(var i=1; i<list.length; i++){
