@@ -75,6 +75,42 @@ function _WORKER(p){
     };
 
     function _download(path){
+        var workflow = [];
+
+        workflow.push(function(RR){
+            var url = 'http://' + ip + '/';
+            url = $.node.url.resolve(url, path);
+
+            var req = $.node.http.get(
+                url,
+                function(res){
+                    var data = new $.node.buffer.Buffer(0);
+                    res.on('data', function(chunk){
+                        if(chunk) data = $.node.buffer.Buffer.concat([
+                            data,
+                            chunk,
+                        ]);
+                    });
+                    res.on('end', function(chunk){
+                        if(chunk) data = $.node.buffer.Buffer.concat([
+                            data,
+                            chunk,
+                        ]);
+                        RR(null, data);
+                    });
+                }
+            ).on('error', function(e){
+                try{
+                    req.abort();
+                    RR($.error('unable-to-access', e.message));
+                } catch(e){
+                };
+            });
+        });
+
+        workflow.push(function(data, RR){
+        });
+
     };
 
     this.obey = function(c){
