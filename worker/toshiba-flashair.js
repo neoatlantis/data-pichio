@@ -74,12 +74,12 @@ function _WORKER(p){
         });
     };
 
-    function _download(path){
+    function _download(path, name, saveFunc){
         var workflow = [];
 
         workflow.push(function(RR){
             var url = 'http://' + ip + '/';
-            url = $.node.url.resolve(url, path);
+            url = $.node.url.resolve(url, path, name);
 
             var req = $.node.http.get(
                 url,
@@ -108,9 +108,7 @@ function _WORKER(p){
             });
         });
 
-        workflow.push(function(data, RR){
-        });
-
+        $.node.async.waterfall(workflow, saveFunc);
     };
 
     this.obey = function(c){
