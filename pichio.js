@@ -69,7 +69,7 @@ for(var i in $.config.connections){
     var connConfig = $.config.connections[i];
     
     var worker = workerGetter[connConfig["type"]](connConfig["parameter"]);
-    var controller = $.controller(save, connConfig["name"]);
+    var controller = $.controller(storage, connConfig["name"]);
 
     worker.obey(controller);
     controller.start();
