@@ -54,15 +54,15 @@ function _WORKER(p){
             for(var i=1; i<list.length; i++){
                 var dataline = list[i].split(',');
                 if(dataline.length != 6) continue;
-                ret.push({
-                    path: $.node.path.resolve(path, dataline[0]),
-                    isFolder: Boolean(dataline[3] & 0x10),
-                    name: dataline[1],
-                    size: parseInt(dataline[2], 10),
-                    attr: dataline[3],
-                    date: dataline[4],
-                    time: dataline[5],
-                });
+                ret.push($.metadata(
+                    Boolean(dataline[3] & 0x10),            // is folder
+                    dataline[3],                            // attr
+                    $.node.path.resolve(path, dataline[0]), // path
+                    dataline[1],                            // name
+                    parseInt(dataline[2], 10),              // size
+                    dataline[4],                            // date
+                    dataline[5]                             // time
+                ));
             };
             RR(null, ret);
         });
