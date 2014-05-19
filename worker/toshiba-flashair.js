@@ -86,6 +86,13 @@ function _WORKER(p){
             var req = $.node.http.get(
                 url,
                 function(res){
+                    if(res.statusCode != 200){
+                        try{
+                            res.abort();
+                        } catch(e){
+                        };
+                        RR(res.statusCode);
+                    };
                     var data = new $.node.buffer.Buffer(0);
                     res.on('data', function(chunk){
                         if(chunk) data = $.node.buffer.Buffer.concat([
