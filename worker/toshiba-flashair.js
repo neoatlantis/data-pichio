@@ -78,8 +78,11 @@ function _WORKER(p){
         var workflow = [];
 
         workflow.push(function(RR){
-            var url = 'http://' + ip + '/';
-            url = $.node.url.resolve(url, path, name);
+            var url = 'http://' + ip;
+            console.log(url, path, name);
+            url = $.node.url.resolve(url, path + '/' + name);
+
+            console.log("TOSHIBA-WIFISD >> Download: " + url);
 
             var req = $.node.http.get(
                 url,
