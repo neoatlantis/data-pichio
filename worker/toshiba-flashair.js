@@ -79,7 +79,6 @@ function _WORKER(p){
 
         workflow.push(function(RR){
             var url = 'http://' + ip;
-            console.log(url, path, name);
             url = $.node.url.resolve(url, path + '/' + name);
 
             console.log("TOSHIBA-WIFISD >> Download: " + url);

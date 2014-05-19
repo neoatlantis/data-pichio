@@ -54,7 +54,7 @@ var encryptor = $.crypto.acrypt(algorithm);
 encryptor.setPublicKey(publicKey);
 
 var storagePath = $.config["storage-path"],
-    storage = $.storage(storagePath);
+    storage = $.storage(encryptor, storagePath);
 
 /////////////////////////////// HTTP SERVER //////////////////////////////////
 if($.config.server){
