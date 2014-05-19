@@ -53,7 +53,7 @@ if('decrypt' == command){
             console.error(err);
             process.exit(255);
         };
-        console.log(res.toString());
+        process.stdout.write(res);
         process.exit(0);
     });
 };
